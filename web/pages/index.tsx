@@ -1,4 +1,6 @@
+import { Center, Heading, VStack } from "@chakra-ui/react";
 import Head from "next/head";
+import PostPreview from "../components/PostPreview";
 
 export default function Home({ posts }: { posts: [any] }) {
   console.log(posts);
@@ -10,7 +12,16 @@ export default function Home({ posts }: { posts: [any] }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main></main>
+      <main>
+        <VStack p="4" px="24">
+          <Heading as="h1" mb="3">
+            Posts
+          </Heading>
+          {posts.map((post) => (
+            <PostPreview key={post.id} post={post} />
+          ))}
+        </VStack>
+      </main>
     </div>
   );
 }

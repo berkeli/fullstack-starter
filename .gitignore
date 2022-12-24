@@ -1,2 +1,6 @@
 .vscode
 .env
+/**/.terraform/
+./**/*.tfstate
+./**/*.tfstate.*
+**/*.tfvars
