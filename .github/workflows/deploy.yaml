@@ -76,7 +76,7 @@ jobs:
   deploy_web:
     name: Build and Deploy Web
     runs-on: ubuntu-latest
-    needs: terraform
+    needs: deploy_api
     environment: ${{ inputs.environment }}
     defaults:
       run:
