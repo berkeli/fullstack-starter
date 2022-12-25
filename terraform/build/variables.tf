@@ -15,3 +15,9 @@ variable "PSQL_PASSWORD" {
   type        = string
   sensitive   = true
 }
+
+variable "DOMAIN" {
+  description = "The domain to use for the DNS records"
+  type        = string
+  default     = "staging.cloud.berkeli.co.uk"
+}

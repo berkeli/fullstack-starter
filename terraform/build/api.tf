@@ -54,6 +54,14 @@ resource "azurerm_monitor_diagnostic_setting" "api" {
       enabled = false
     }
   }
+  # This is a workaround for azure caching issue. If you don't ignore changes, it will throw 409 error.
+  # To update the diagnostic settings, you need to destroy the resource and recreate it.
+  lifecycle {
+    ignore_changes = [
+      log,
+      metric,
+    ]
+  }
 }
 
 data "dns_a_record_set" "api_ip" {
