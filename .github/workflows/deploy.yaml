@@ -73,7 +73,7 @@ jobs:
       - name: Deploy to Azure
         uses: azure/webapps-deploy@v2
         with:
-          app-name: cloud-fp-api-${{ inputs.environment }}
+          app-name: cloud-fp-${{ inputs.environment }}-api
           package: ./api/dist
 
   deploy_web:
@@ -101,7 +101,7 @@ jobs:
       - name: Deploy to Azure
         uses: azure/webapps-deploy@v2
         with:
-          app-name: cloud-fp-api-${{ inputs.environment }}
+          app-name: cloud-fp-${{ inputs.environment }}-web
           package: ./api/.next
 
 
