@@ -4,6 +4,7 @@ resource "azurerm_service_plan" "web" {
   location            = azurerm_resource_group.this.location
   os_type             = "Linux"
   sku_name            = "B1"
+
 }
 
 resource "azurerm_linux_web_app" "web" {
@@ -29,16 +30,6 @@ resource "azurerm_monitor_diagnostic_setting" "web" {
   storage_account_id = azurerm_storage_account.this.id
 
   log {
-    category = "AppServiceConsoleLogs"
-    enabled  = true
-
-    retention_policy {
-      days    = 7
-      enabled = true
-    }
-  }
-
-  log {
     category = "AppServiceHTTPLogs"
     enabled  = true
 
@@ -49,12 +40,11 @@ resource "azurerm_monitor_diagnostic_setting" "web" {
   }
 
   log {
-    category = "AppServiceIPSecAudit"
-    enabled  = false
-
+    category = "AppServiceConsoleLogs"
+    enabled  = true
     retention_policy {
       days    = 7
-      enabled = false
+      enabled = true
     }
   }
 

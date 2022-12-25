@@ -11,7 +11,6 @@ resource "azurerm_linux_web_app" "api" {
   location            = azurerm_resource_group.this.location
   resource_group_name = azurerm_resource_group.this.name
   service_plan_id     = azurerm_service_plan.api.id
-
   app_settings = {
     "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = "false"
     "DOCKER_ENABLE_CI"                    = "true"
@@ -29,16 +28,6 @@ resource "azurerm_monitor_diagnostic_setting" "api" {
   storage_account_id = azurerm_storage_account.this.id
 
   log {
-    category = "AppServiceConsoleLogs"
-    enabled  = true
-
-    retention_policy {
-      days    = 7
-      enabled = true
-    }
-  }
-
-  log {
     category = "AppServiceHTTPLogs"
     enabled  = true
 
@@ -49,12 +38,11 @@ resource "azurerm_monitor_diagnostic_setting" "api" {
   }
 
   log {
-    category = "AppServiceIPSecAudit"
-    enabled  = false
-
+    category = "AppServiceConsoleLogs"
+    enabled  = true
     retention_policy {
       days    = 7
-      enabled = false
+      enabled = true
     }
   }
 
@@ -62,6 +50,7 @@ resource "azurerm_monitor_diagnostic_setting" "api" {
     category = "AllMetrics"
 
     retention_policy {
+      days    = 3
       enabled = false
     }
   }

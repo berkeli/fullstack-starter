@@ -1,5 +1,5 @@
 resource "azurerm_storage_account" "this" {
-  name                      = "cloudfp${var.ENV}storage"
+  name                      = "cloudfp${var.ENV}logs"
   resource_group_name       = azurerm_resource_group.this.name
   location                  = azurerm_resource_group.this.location
   account_tier              = "Standard"
