@@ -21,7 +21,6 @@ resource "azurerm_linux_web_app" "web" {
   }
   site_config {
     health_check_path = "/api/healthz"
-    app_command_line  = "npm run start"
     application_stack {
       node_version = "16-lts"
     }

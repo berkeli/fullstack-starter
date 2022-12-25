@@ -74,7 +74,7 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: cloud-fp-${{ inputs.environment }}-api
-          package: ./api/dist
+          package: ./api/
 
   deploy_web:
     name: Build and Deploy Web
@@ -102,7 +102,7 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: cloud-fp-${{ inputs.environment }}-web
-          package: ./web/.next
+          package: ./web/
 
 
       
