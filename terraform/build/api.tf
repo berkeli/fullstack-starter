@@ -13,6 +13,7 @@ resource "azurerm_linux_web_app" "api" {
   service_plan_id     = azurerm_service_plan.api.id
   app_settings = {
     "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = "false"
+    "WEBSITES_PORT"                       = "4000"
     "DOCKER_ENABLE_CI"                    = "true"
     "DATABASE_URL"                        = "postgresql://${var.PSQL_USERNAME}:${var.PSQL_PASSWORD}@${azurerm_postgresql_server.this.fqdn}:5432/database?sslmode=require"
   }

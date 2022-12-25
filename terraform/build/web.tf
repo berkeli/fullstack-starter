@@ -16,6 +16,7 @@ resource "azurerm_linux_web_app" "web" {
   app_settings = {
     "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = "false"
     "DOCKER_ENABLE_CI"                    = "true"
+    "WEBSITES_PORT"                       = "3000"
     "API_URL"                             = "http://${data.dns_a_record_set.api_ip.addrs[0]}"
   }
   site_config {
