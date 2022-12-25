@@ -18,9 +18,9 @@ resource "azurerm_linux_web_app" "api" {
     "DATABASE_URL"                        = "postgresql://${var.PSQL_USERNAME}:${var.PSQL_PASSWORD}@${azurerm_postgresql_server.this.fqdn}:5432/database?sslmode=require"
   }
 
-  site_config {
-    application_stack {
-      docker_image = "berkeli/cloud-fp-api-${var.ENV}"
-    }
-  }
+  site_config {}
+}
+
+data "dns_a_record_set" "api_ip" {
+  host = azurerm_linux_web_app.api.default_hostname
 }

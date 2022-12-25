@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PostPreview should render correctly 1`] = `
+<div>
+  <div
+    class="css-2rlxtj"
+  >
+    <h3
+      class="chakra-heading css-0"
+    >
+      test
+    </h3>
+    <p
+      class="chakra-text css-0"
+    >
+      test
+    </p>
+  </div>
+</div>
+`;

@@ -1,0 +1,23 @@
+name: Run lint and test
+run-name: ${{ github.actor }} is running lints and tests.
+on: [push]
+jobs:
+  lint_and_test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 16.x
+      - name: Install dependencies for API 🐧 
+        run: npm --prefix api install
+      - name: API linting 🔎 
+        run: npm --prefix api run lint
+      - name: API tests 💡
+        run: npm --prefix api run test
+      - name: Install dependencies for web 🖥️ 
+        run: npm --prefix web install
+      - name: Web linting 🔎 
+        run: npm --prefix web run lint
+      - name: Web tests 💡
+        run: npm --prefix web run test
