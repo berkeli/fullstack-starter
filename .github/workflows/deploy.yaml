@@ -96,7 +96,7 @@ jobs:
         with:
           app-name: cloud-fp-api-${{ inputs.environment }}
           publish-profile: ${{ secrets.WEB_PUBLISH_PROFILE }}
-          package: ./api/dist
+          package: ./api/.next
 
 
       
