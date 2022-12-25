@@ -147,7 +147,7 @@ jobs:
           app-name: cloud-fp-${{ inputs.environment }}-web
           package: ./web.zip
       - name: Delete zip file
-        run: rm web/web.zip
+        run: rm web.zip
 
 
       
