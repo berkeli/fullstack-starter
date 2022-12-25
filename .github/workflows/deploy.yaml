@@ -1,0 +1,30 @@
+name: Run deployment
+permissions:
+  id-token: write # This is required for requesting the JWT
+  contents: read # This is required for actions/checkout
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - uses: hashicorp/setup-terraform@v2
+      - name: Terraform init
+        working-directory: terraform
+        run: terraform init
+      - name: Terraform plan
+        working-directory: terraform
+        run: terraform plan
+      - name: Terraform apply 
+        working-directory: terraform
+        run: terraform apply --auto-approve
+      

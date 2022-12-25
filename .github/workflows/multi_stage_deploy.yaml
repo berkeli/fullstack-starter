@@ -1,0 +1,26 @@
+name: Multi stage deployment of the application.
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy_staging:
+    name: Deploy to staging environment
+    uses: ./.github/workflows/deploy.yaml
+    with:
+      environment: "staging"
+    secrets: inherit
+  
+  deploy_production:
+    steps:
+      - uses: trstringer/manual-approval@v1
+        with:
+          secret: ${{ github.TOKEN }}
+          approvers: berkeli
+      - name: Deploy to production environment
+        uses: ./.github/workflows/deploy.yaml
+        with:
+          environment: "production"
+        secrets: inherit
