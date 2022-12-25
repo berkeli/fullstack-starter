@@ -18,7 +18,67 @@ resource "azurerm_linux_web_app" "api" {
     "DATABASE_URL"                        = "postgresql://${var.PSQL_USERNAME}:${var.PSQL_PASSWORD}@${azurerm_postgresql_server.this.fqdn}:5432/database?sslmode=require"
   }
 
-  site_config {}
+  application_stack {
+    node_version = "16-lts"
+  }
+
+  site_config {
+    health_check_path = "/v1"
+  }
+}
+
+resource "azurerm_monitor_diagnostic_setting" "api" {
+  name               = "cloud-fp-${var.ENV}-api-logs"
+  target_resource_id = azurerm_linux_web_app.api.id
+  storage_account_id = azurerm_storage_account.this.id
+
+  log {
+    category = "AuditEvent"
+    enabled  = false
+
+    retention_policy {
+      days    = 7
+      enabled = false
+    }
+  }
+
+  log {
+    category = "AppServiceConsoleLogs"
+    enabled  = true
+
+    retention_policy {
+      days    = 7
+      enabled = true
+    }
+  }
+
+  log {
+    category = "AppServiceHTTPLogs"
+    enabled  = true
+
+    retention_policy {
+      days    = 7
+      enabled = true
+    }
+  }
+
+  log {
+    category = "AppServiceIPSecAudit"
+    enabled  = false
+
+    retention_policy {
+      days    = 7
+      enabled = false
+    }
+  }
+
+  metric {
+    category = "AllMetrics"
+
+    retention_policy {
+      enabled = false
+    }
+  }
 }
 
 data "dns_a_record_set" "api_ip" {
