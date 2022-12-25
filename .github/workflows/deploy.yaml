@@ -8,7 +8,7 @@ on:
 
 jobs:
   terraform:
-    name: Build infrastructure for ${{ inputs.environment }} using terraform.
+    name: Terraform for ${{ inputs.environment }}
     environment: ${{ inputs.environment }}
     runs-on: ubuntu-latest
     steps:
