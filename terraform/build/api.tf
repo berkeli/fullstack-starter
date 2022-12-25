@@ -29,16 +29,6 @@ resource "azurerm_monitor_diagnostic_setting" "api" {
   storage_account_id = azurerm_storage_account.this.id
 
   log {
-    category = "AuditEvent"
-    enabled  = false
-
-    retention_policy {
-      days    = 7
-      enabled = false
-    }
-  }
-
-  log {
     category = "AppServiceConsoleLogs"
     enabled  = true
 

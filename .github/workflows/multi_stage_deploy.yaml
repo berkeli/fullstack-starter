@@ -1,4 +1,4 @@
-name: Multi stage deployment of the application.
+name: Multi stage deploy
 run-name: ${{ github.actor }} triggered deployment.
 on:
   workflow_dispatch:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   deploy_staging:
-    name: Deploy to staging environment
+    name: Deploy staging
     uses: ./.github/workflows/deploy.yaml
     with:
       environment: "staging"
@@ -16,7 +16,7 @@ jobs:
   
   deploy_production:
     runs-on: ubuntu-latest
-    name: Deploy to production environment
+    name: Deploy production
     needs: deploy_staging
     steps:
       - uses: trstringer/manual-approval@v1
