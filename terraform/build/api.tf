@@ -19,7 +19,7 @@ resource "azurerm_linux_web_app" "api" {
 
   site_config {
     health_check_path = "/v1"
-    app_command_line  = "pm2 start dist/main.js --no-daemon"
+    app_command_line  = "pm2 start dist/src/main.js --no-daemon"
     application_stack {
       node_version = "16-lts"
     }
