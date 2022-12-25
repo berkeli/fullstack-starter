@@ -70,7 +70,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: node-app
-        path: nest.zip
+        path: api/nest.zip
 
   deploy_api:
     name: Deploy API
