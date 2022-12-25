@@ -97,22 +97,17 @@ jobs:
           app-name: cloud-fp-${{ inputs.environment }}-api
           package: nest.zip
       - name: Delete zip file
-        run: rm nest.zip
+        run: rm api/nest.zip
 
-  deploy_web:
-    name: Build and Deploy Web
+  build_web:
+    name: Build Web
     runs-on: ubuntu-latest
     needs: terraform
-    environment: ${{ inputs.environment }}
     defaults:
       run:
         working-directory: web
     steps:
       - uses: actions/checkout@v2
-      - name: Login to azure
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
       - name: Use Node.js 16.x 
         uses: actions/setup-node@v3
         with:
@@ -121,11 +116,38 @@ jobs:
         run: yarn
       - name: Build
         run: yarn build
+      - name: Zip all files for upload between jobs
+        run: zip --symlinks -r web.zip ./*
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v2
+        with:
+          name: web-app
+          path: web/web.zip
+
+  deploy_web:
+    name: Build and Deploy Web
+    runs-on: ubuntu-latest
+    needs: build_web
+    environment: ${{ inputs.environment }}
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - name: Login to azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v2
+        with:
+          name: web-app
       - name: Deploy to Azure
         uses: azure/webapps-deploy@v2
         with:
           app-name: cloud-fp-${{ inputs.environment }}-web
-          package: ./web/
+          package: ./web.zip
+      - name: Delete zip file
+        run: rm web/web.zip
 
 
       
