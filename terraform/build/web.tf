@@ -21,9 +21,6 @@ resource "azurerm_linux_web_app" "web" {
     health_check_path = "/api/healthz"
   }
 
-  application_stack {
-    node_version = "16-lts"
-  }
 }
 
 resource "azurerm_monitor_diagnostic_setting" "web" {

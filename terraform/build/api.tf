@@ -18,10 +18,6 @@ resource "azurerm_linux_web_app" "api" {
     "DATABASE_URL"                        = "postgresql://${var.PSQL_USERNAME}:${var.PSQL_PASSWORD}@${azurerm_postgresql_server.this.fqdn}:5432/database?sslmode=require"
   }
 
-  application_stack {
-    node_version = "16-lts"
-  }
-
   site_config {
     health_check_path = "/v1"
   }
