@@ -20,6 +20,10 @@ resource "azurerm_linux_web_app" "api" {
 
   site_config {
     health_check_path = "/v1"
+    application_stack {
+      name    = "node"
+      version = "16-lts"
+    }
   }
 }
 
