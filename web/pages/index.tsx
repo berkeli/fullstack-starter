@@ -1,6 +1,6 @@
-import { Center, Heading, VStack } from "@chakra-ui/react";
-import Head from "next/head";
-import PostPreview from "../components/PostPreview";
+import { Center, Heading, VStack } from '@chakra-ui/react';
+import Head from 'next/head';
+import PostPreview from '../components/PostPreview';
 
 export default function Home({ posts }: { posts: [any] }) {
   console.log(posts);

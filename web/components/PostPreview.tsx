@@ -1,5 +1,5 @@
-import { Box, Heading, Text } from "@chakra-ui/react";
-import React from "react";
+import { Box, Heading, Text } from '@chakra-ui/react';
+import React from 'react';
 
 type Props = {
   post: any;
