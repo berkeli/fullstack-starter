@@ -14,6 +14,9 @@ jobs:
     secrets: inherit
   
   deploy_production:
+    runs-on: ubuntu-latest
+    name: Deploy to production environment
+    needs: deploy_staging
     steps:
       - uses: trstringer/manual-approval@v1
         with:
@@ -23,4 +26,3 @@ jobs:
         uses: ./.github/workflows/deploy.yaml
         with:
           environment: "production"
-        secrets: inherit
