@@ -102,7 +102,7 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: cloud-fp-${{ inputs.environment }}-web
-          package: ./api/.next
+          package: ./web/.next
 
 
       
