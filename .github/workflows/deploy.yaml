@@ -72,7 +72,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: node-app
-        path: api/nest.zip
+        path: ./api/nest.zip
 
   deploy_api:
     name: Deploy API
@@ -97,7 +97,7 @@ jobs:
           app-name: cloud-fp-${{ inputs.environment }}-api
           package: nest.zip
       - name: Delete zip file
-        run: rm api/nest.zip
+        run: rm ./nest.zip
 
   build_web:
     name: Build Web
@@ -117,12 +117,12 @@ jobs:
       - name: Build
         run: yarn build
       - name: Zip all files for upload between jobs
-        run: zip --symlinks -r web.zip ./*
+        run: zip --symlinks -r web.zip ./* .*
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
           name: web-app
-          path: web/web.zip
+          path: ./web/web.zip
 
   deploy_web:
     name: Build and Deploy Web
@@ -147,7 +147,7 @@ jobs:
           app-name: cloud-fp-${{ inputs.environment }}-web
           package: ./web.zip
       - name: Delete zip file
-        run: rm web.zip
+        run: rm ./web.zip
 
 
       
