@@ -25,6 +25,14 @@ resource "azurerm_postgresql_server" "this" {
   }
 }
 
+resource "azurerm_postgresql_database" "this" {
+  name                = "database"
+  resource_group_name = azurerm_resource_group.this.name
+  server_name         = azurerm_postgresql_server.this.name
+  charset             = "utf8"
+  collation           = "English_United States.1252"
+}
+
 resource "azurerm_postgresql_firewall_rule" "this" {
   name                = "api"
   resource_group_name = azurerm_resource_group.this.name

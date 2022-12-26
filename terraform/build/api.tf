@@ -14,7 +14,7 @@ resource "azurerm_linux_web_app" "api" {
   app_settings = {
     "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = "false"
     "WEBSITES_PORT"                       = "4000"
-    "DATABASE_URL"                        = "postgresql://${var.PSQL_USERNAME}%40${azurerm_postgresql_server.this.name}:${var.PSQL_PASSWORD}@${azurerm_postgresql_server.this.fqdn}:5432/postgres?sslmode=require"
+    "DATABASE_URL"                        = "postgresql://${azurerm_postgresql_server.this.administrator_login}:${azurerm_postgresql_server.this.administrator_login_password}@${azurerm_postgresql_server.this.fqdn}:5432/database?sslmode=require"
   }
 
   site_config {
@@ -65,6 +65,18 @@ resource "azurerm_monitor_diagnostic_setting" "api" {
       log,
       metric,
     ]
+  }
+}
+
+resource "azurerm_app_service_connection" "api_to_db" {
+  name               = "cloud_fp_${var.ENV}_api_to_db"
+  app_service_id     = azurerm_linux_web_app.api.id
+  target_resource_id = azurerm_postgresql_database.this.id
+  client_type        = "nodejs"
+  authentication {
+    type   = "secret"
+    name   = azurerm_postgresql_server.this.administrator_login
+    secret = azurerm_postgresql_server.this.administrator_login_password
   }
 }
 
