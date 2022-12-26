@@ -14,12 +14,15 @@ resource "azurerm_linux_web_app" "api" {
   app_settings = {
     "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = "false"
     "WEBSITES_PORT"                       = "4000"
-    "DATABASE_URL"                        = "postgresql://${azurerm_postgresql_server.this.administrator_login}:${azurerm_postgresql_server.this.administrator_login_password}@${azurerm_postgresql_server.this.fqdn}:5432/database?sslmode=require"
+  }
+  connection_string {
+    name  = "DATABASE_URL"
+    type  = "PostgreSQL"
+    value = "postgresql://${azurerm_postgresql_server.this.administrator_login}@${azurerm_postgresql_server.this.name}:${azurerm_postgresql_server.this.administrator_login_password}@${azurerm_postgresql_server.this.fqdn}:5432/database?sslmode=require"
   }
 
   site_config {
     health_check_path = "/v1"
-    app_command_line  = "pm2 start dist/src/main.js --no-daemon"
     application_stack {
       node_version = "16-lts"
     }

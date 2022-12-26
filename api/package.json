@@ -9,7 +9,6 @@
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "prestart": "prisma migrate deploy",
     "start": "pm2 start dist/src/main.js --no-daemon",
     "prestart:dev": "yarn migrate && yarn prisma:gen",
     "start:dev": "nest start --tsc --watch",
