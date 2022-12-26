@@ -24,3 +24,11 @@ resource "azurerm_postgresql_server" "this" {
     ]
   }
 }
+
+resource "azurerm_postgresql_firewall_rule" "this" {
+  name                = "api"
+  resource_group_name = azurerm_resource_group.this.name
+  server_name         = azurerm_postgresql_server.this.name
+  start_ip_address    = data.dns_a_record_set.api_ip.addrs[0]
+  end_ip_address      = data.dns_a_record_set.api_ip.addrs[0]
+}
