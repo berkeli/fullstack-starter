@@ -27,11 +27,21 @@ export default function Home({ posts }: { posts: [any] }) {
 }
 
 export async function getServerSideProps() {
-  const res = await fetch(`${process.env.API_URL}/posts`);
-  const posts = await res.json();
-  return {
-    props: {
-      posts,
-    },
-  };
+  try {
+    const res = await fetch(`${process.env.API_URL}/posts`);
+
+    const posts = await res.json();
+    return {
+      props: {
+        posts,
+      },
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      props: {
+        posts: [],
+      },
+    };
+  }
 }
