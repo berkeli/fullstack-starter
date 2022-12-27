@@ -26,17 +26,22 @@ jobs:
         working-directory: terraform
     steps:
       - uses: actions/checkout@v2
-      - uses: hashicorp/setup-terraform@v2
       - name: Login to azure
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - uses: hashicorp/setup-terraform@v2
       - name: Terraform fmt
         id: fmt
         run: terraform fmt -check
         continue-on-error: true
       - name: Terraform init
         run: terraform init -backend-config="resource_group_name=Cloud-Final-Project-staging" -backend-config="storage_account_name=berkelifpstatestaging"
+        env:
+          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+          ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+          ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
       - name: Terraform Validate
         id: validate
         run: terraform validate -no-color

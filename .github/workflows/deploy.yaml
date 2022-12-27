@@ -11,6 +11,9 @@ jobs:
     name: Terraform for ${{ inputs.environment }}
     environment: ${{ inputs.environment }}
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: terraform
     steps:
       - uses: actions/checkout@v2
       - uses: azure/login@v1
@@ -18,7 +21,6 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
       - uses: hashicorp/setup-terraform@v2
       - name: Terraform init 
-        working-directory: terraform
         run: terraform init -backend-config="resource_group_name=Cloud-Final-Project-${{ inputs.environment }}" -backend-config="storage_account_name=berkelifpstate${{ inputs.environment }}" 
         env:
           ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
@@ -26,7 +28,6 @@ jobs:
           ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
           ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
       - name: Terraform plan 
-        working-directory: terraform
         run: terraform plan
         env:
           ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
@@ -37,7 +38,6 @@ jobs:
           TF_VAR_PSQL_USERNAME: ${{ secrets.PSQL_USERNAME }}
           TF_VAR_PSQL_PASSWORD: ${{ secrets.PSQL_PASSWORD }}
       - name: Terraform apply 
-        working-directory: terraform
         run: terraform apply --auto-approve
         env:
           ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
