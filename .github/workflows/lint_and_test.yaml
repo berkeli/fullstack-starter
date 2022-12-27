@@ -1,6 +1,6 @@
 name: Run lint and test
 run-name: ${{ github.actor }} is running lints and tests.
-on: [push]
+on: workflow_call
 jobs:
   lint_and_test:
     runs-on: ubuntu-latest

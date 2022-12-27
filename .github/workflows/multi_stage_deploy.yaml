@@ -7,7 +7,12 @@ on:
       - main
 
 jobs:
+  test:
+    name: Test Everything
+    uses: ./.github/workflows/lint_and_test.yaml
+
   deploy_staging:
+    needs: test
     name: Deploy staging
     uses: ./.github/workflows/deploy.yaml
     with:
@@ -18,11 +23,8 @@ jobs:
     runs-on: ubuntu-latest
     name: Deploy production
     needs: deploy_staging
+    secrets: inherit
     steps:
-      - uses: trstringer/manual-approval@v1
-        with:
-          secret: ${{ github.TOKEN }}
-          approvers: berkeli
       - name: Deploy to production environment
         uses: ./.github/workflows/deploy.yaml
         with:
