@@ -2,22 +2,36 @@ name: Run lint and test
 run-name: ${{ github.actor }} is running lints and tests.
 on: workflow_call
 jobs:
-  lint_and_test:
+  api:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: api
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
           node-version: 16.x
       - name: Install dependencies for API 🐧 
-        run: npm --prefix api install
+        run: yarn
       - name: API linting 🔎 
-        run: npm --prefix api run lint
+        run: yarn lint
       - name: API tests 💡
-        run: npm --prefix api run test
+        run: yarn test
+
+  web:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 16.x
       - name: Install dependencies for web 🖥️ 
-        run: npm --prefix web install
+        run: yarn
       - name: Web linting 🔎 
-        run: npm --prefix web run lint
+        run: yarn lint
       - name: Web tests 💡
-        run: npm --prefix web run test
+        run: yarn test
