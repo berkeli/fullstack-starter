@@ -19,9 +19,9 @@ jobs:
       - uses: hashicorp/setup-terraform@v2
       - name: Terraform init 
         working-directory: terraform
-        run: terraform init \ 
+        run: terraform init \
           -backend-config="resource_group_name=Cloud-Final-Project-${{ inputs.environment }}" \
-          -backend-config="storage_account_name=cloudfinalproject${{ inputs.environment }}" \
+          -backend-config="storage_account_name=berkelifpstate${{ inputs.environment }}" 
         env:
           ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
           ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
