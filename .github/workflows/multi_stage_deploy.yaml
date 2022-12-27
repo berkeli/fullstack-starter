@@ -20,11 +20,9 @@ jobs:
     secrets: inherit
   
   deploy_production:
-    runs-on: ubuntu-latest
     name: Deploy production
     needs: deploy_staging
-    steps:
-      - name: Deploy to production environment
-        uses: ./.github/workflows/deploy.yaml
-        with:
-          environment: "production"
+    uses: ./.github/workflows/deploy.yaml
+    with:
+      environment: "production"
+    secrets: inherit
