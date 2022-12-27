@@ -1,7 +1,7 @@
 resource "azurerm_postgresql_server" "this" {
   name                = "cloud-fp-${var.ENV}"
-  location            = azurerm_resource_group.this.location
-  resource_group_name = azurerm_resource_group.this.name
+  location            = data.azurerm_resource_group.this.location
+  resource_group_name = data.azurerm_resource_group.this.name
 
   administrator_login          = var.PSQL_USERNAME
   administrator_login_password = var.PSQL_PASSWORD
@@ -27,7 +27,7 @@ resource "azurerm_postgresql_server" "this" {
 
 resource "azurerm_postgresql_database" "this" {
   name                = "database"
-  resource_group_name = azurerm_resource_group.this.name
+  resource_group_name = data.azurerm_resource_group.this.name
   server_name         = azurerm_postgresql_server.this.name
   charset             = "utf8"
   collation           = "English_United States.1252"
@@ -35,7 +35,7 @@ resource "azurerm_postgresql_database" "this" {
 
 resource "azurerm_postgresql_firewall_rule" "this" {
   name                = "api"
-  resource_group_name = azurerm_resource_group.this.name
+  resource_group_name = data.azurerm_resource_group.this.name
   server_name         = azurerm_postgresql_server.this.name
   start_ip_address    = data.dns_a_record_set.api_ip.addrs[0]
   end_ip_address      = data.dns_a_record_set.api_ip.addrs[0]

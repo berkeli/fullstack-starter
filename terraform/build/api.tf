@@ -1,30 +1,36 @@
 resource "azurerm_service_plan" "api" {
   name                = "cloud-fp-${var.ENV}-api"
-  resource_group_name = azurerm_resource_group.this.name
-  location            = azurerm_resource_group.this.location
+  resource_group_name = data.azurerm_resource_group.this.name
+  location            = data.azurerm_resource_group.this.location
   os_type             = "Linux"
   sku_name            = "B1"
 }
 
 resource "azurerm_linux_web_app" "api" {
   name                = "cloud-fp-${var.ENV}-api"
-  location            = azurerm_resource_group.this.location
-  resource_group_name = azurerm_resource_group.this.name
+  location            = data.azurerm_resource_group.this.location
+  resource_group_name = data.azurerm_resource_group.this.name
   service_plan_id     = azurerm_service_plan.api.id
   app_settings = {
     "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = "false"
     "WEBSITES_PORT"                       = "4000"
-  }
-  connection_string {
-    name  = "DATABASE_URL"
-    type  = "PostgreSQL"
-    value = "postgresql://${azurerm_postgresql_server.this.administrator_login}@${azurerm_postgresql_server.this.name}:${azurerm_postgresql_server.this.administrator_login_password}@${azurerm_postgresql_server.this.fqdn}:5432/database?sslmode=require"
+    "DATABASE_URL"                        = "postgresql://${azurerm_postgresql_server.this.administrator_login}@${azurerm_postgresql_server.this.name}:${azurerm_postgresql_server.this.administrator_login_password}@${azurerm_postgresql_server.this.fqdn}:5432/database?sslmode=require"
   }
 
   site_config {
     health_check_path = "/v1"
     application_stack {
       node_version = "16-lts"
+    }
+
+    dynamic "ip_restriction" {
+      for_each = split(",", azurerm_linux_web_app.web.outbound_ip_addresses)
+      content {
+        ip_address = "${ip_restriction.value}/32"
+        name       = "Allow ${ip_restriction.value}"
+        priority   = 200
+        action     = "Allow"
+      }
     }
   }
 }

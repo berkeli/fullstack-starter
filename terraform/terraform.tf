@@ -6,7 +6,7 @@ terraform {
 
   backend "azurerm" {
     resource_group_name  = "Cloud-Final-Project-staging"
-    storage_account_name = "berkelifpstate"
+    storage_account_name = "berkelifpstatestaging"
     container_name       = "tfstate"
     key                  = "terraform.tfstate"
   }
