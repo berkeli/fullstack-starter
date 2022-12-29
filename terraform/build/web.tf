@@ -9,7 +9,7 @@ resource "azurerm_service_plan" "web" {
 
 resource "azurerm_linux_web_app" "web" {
   name                = "cloud-fp-${var.ENV}-web"
-  location            = data.azurerm_resource_group.this.location
+  location            = var.LOCATION
   resource_group_name = data.azurerm_resource_group.this.name
   service_plan_id     = azurerm_service_plan.api.id
 
@@ -26,8 +26,6 @@ resource "azurerm_linux_web_app" "web" {
   }
 
 }
-
-
 
 resource "azurerm_monitor_diagnostic_setting" "web" {
   name               = "cloud-fp-${var.ENV}-web-logs"

@@ -21,3 +21,9 @@ variable "DOMAIN" {
   type        = string
   default     = "staging.cloud.berkeli.co.uk"
 }
+
+variable "LOCATION" {
+  description = "The location to deploy to"
+  type        = string
+  default     = "euwest"
+}
