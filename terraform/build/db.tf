@@ -1,6 +1,6 @@
 resource "azurerm_postgresql_server" "this" {
   name                = "cloud-fp-${var.ENV}"
-  location            = data.azurerm_resource_group.this.location
+  location            = var.LOCATION
   resource_group_name = data.azurerm_resource_group.this.name
 
   administrator_login          = var.PSQL_USERNAME
@@ -22,6 +22,7 @@ resource "azurerm_postgresql_server" "this" {
       administrator_login_password,
       administrator_login,
     ]
+    prevent_destroy = false
   }
 }
 
@@ -31,6 +32,9 @@ resource "azurerm_postgresql_database" "this" {
   server_name         = azurerm_postgresql_server.this.name
   charset             = "utf8"
   collation           = "English_United States.1252"
+  lifecycle {
+    prevent_destroy = false
+  }
 }
 
 resource "azurerm_postgresql_firewall_rule" "this" {

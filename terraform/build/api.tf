@@ -1,14 +1,14 @@
 resource "azurerm_service_plan" "api" {
   name                = "cloud-fp-${var.ENV}-api"
   resource_group_name = data.azurerm_resource_group.this.name
-  location            = data.azurerm_resource_group.this.location
+  location            = var.LOCATION
   os_type             = "Linux"
   sku_name            = "B1"
 }
 
 resource "azurerm_linux_web_app" "api" {
   name                = "cloud-fp-${var.ENV}-api"
-  location            = data.azurerm_resource_group.this.location
+  location            = var.LOCATION
   resource_group_name = data.azurerm_resource_group.this.name
   service_plan_id     = azurerm_service_plan.api.id
   app_settings = {
@@ -16,6 +16,10 @@ resource "azurerm_linux_web_app" "api" {
     "WEBSITES_PORT"                       = "4000"
     "DATABASE_URL"                        = "postgresql://${azurerm_postgresql_server.this.administrator_login}@${azurerm_postgresql_server.this.name}:${azurerm_postgresql_server.this.administrator_login_password}@${azurerm_postgresql_server.this.fqdn}:5432/database?sslmode=require"
   }
+
+  depends_on = [
+    azurerm_postgresql_database.this,
+  ]
 
   site_config {
     health_check_path = "/v1"
